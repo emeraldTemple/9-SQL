@@ -1,0 +1,73 @@
+CREATE TABLE Departments (
+     dept_no varchar(20) PRIMARY KEY
+    ,dept_name varchar(20)
+);
+
+CREATE TABLE Dept_emp (
+     emp_no varchar(20) 
+    ,dept_no varchar(20) REFERENCES Departments(dept_no)
+	,from_date varchar(20)
+	,to_date varchar(20)
+);
+
+CREATE TABLE Employees (
+     emp_no varchar(20) PRIMARY KEY
+    ,birth_date varchar(20)
+	,first_name varchar(20)
+	,last_name varchar(20)
+	,gender varchar(20)
+	,hire_date varchar(20)
+);
+
+CREATE TABLE Salaries (
+     emp_no varchar(20) PRIMARY KEY
+	,salary float
+	,from_date varchar(20)
+	,to_date varchar(20)
+);
+
+CREATE TABLE Titles (
+     emp_no varchar(20)
+    ,title varchar(30)
+	,from_date varchar(20)
+	,to_date varchar(20)
+);
+
+SELECT
+   employees.emp_no,
+   employees.first_name,
+   employees.last_name,
+   employees.gender,
+   salaries.salary
+FROM
+   employees
+INNER JOIN salaries ON employees.emp_no = salaries.emp_no;
+
+SELECT * FROM employees WHERE employees.first_name = 'Hercules' AND employees.last_name LIKE 'B%'
+
+SELECT
+   employees.emp_no,
+   employees.first_name,
+   employees.last_name,
+   departments.dept_no
+FROM
+	employees
+INNER JOIN departments ON departments.dept_name = 'Sales' 
+
+SELECT
+   employees.emp_no,
+   employees.first_name,
+   employees.last_name,
+   departments.dept_no
+FROM employees
+JOIN dept_emp ON employees.emp_no = dept_emp.emp_no
+JOIN departments ON departments.dept_no = dept_emp.dept_no
+WHERE 1=1
+	   and departments.dept_name in ('Sales','Development');
+ 
+
+SELECT COUNT(*), employees.last_name 
+  FROM employees
+ GROUP BY last_name
+ ORDER BY COUNT(*) DESC
+	   
